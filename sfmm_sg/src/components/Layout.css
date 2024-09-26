@@ -1,0 +1,23 @@
+
+/* src/components/Layout.css */
+.layout {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background: #1e3a4c;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+  }
+  
+  .main-content {
+    margin-left: 250px; /* Adjust this if needed */
+    padding: 20px;
+    width: calc(100% - 250px);
+  }
+  

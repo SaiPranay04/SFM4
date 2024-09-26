@@ -1,0 +1,13 @@
+/* src/components/Card.css */
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  flex: 1;
+}
+
+.total {
+  /* Additional styles specific to the total companies card */
+}

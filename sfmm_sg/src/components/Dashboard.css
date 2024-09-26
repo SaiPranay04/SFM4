@@ -1,0 +1,107 @@
+body.dashboard {
+  background-color: #f4f4f9; /* Light gray background for the dashboard */
+}
+
+.sidebar {
+  width: 250px;
+  background-color: #002b36; /* Dark sidebar */
+  color: white;
+  padding-top: 20px;
+}
+
+.main-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f9f9f9; /* Light content background */
+  position: relative; /* Set relative for contained positioning */
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  background-color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Remove absolute positioning for better flow */
+}
+
+.header-left h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  font-size: 1.5rem;
+  margin-left: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px; /* Adjust margin instead of absolute positioning */
+}
+
+.card {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 300px; /* Adjust for better responsiveness */
+  max-width: 100%; /* Ensure cards don't overflow */
+}
+
+.card h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.card p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.card .value {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.quick-links {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px; /* Use gap for consistent spacing */
+}
+
+.quick-link-label {
+  font-weight: bold;
+}
+
+.btn {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #007bff; /* Primary button color */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #0056b3; /* Hover effect */
+}

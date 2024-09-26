@@ -1,0 +1,48 @@
+/* Sidebar.css */
+.sidebar {
+    height: 100vh; /* Full height of the viewport */
+    width: 250px;
+    background-color: #1e3a4c;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    position: fixed; /* Make it fixed to the side */
+  }
+  
+  .sidebar .logo {
+    padding: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px; /* Add some space below the logo */
+  }
+  
+  .sidebar ul li {
+    padding: 10px 20px;
+    margin-bottom: 10px; /* Add margin to maintain gap */
+    cursor: pointer;
+  }
+  
+  .sidebar ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .sidebar ul li:hover {
+    background-color: #2c4a64;
+  }
+  
+  .sidebar ul li.active {
+    background-color: #2c4a64;
+  }
+  
+  .sidebar .footer {
+    margin-top: auto; /* Push the footer to the bottom */
+    padding: 20px;
+    text-align: center;
+  }

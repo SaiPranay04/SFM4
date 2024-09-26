@@ -1,0 +1,218 @@
+/* Ensure no horizontal scrolling */
+body, .home-container {
+    display: flex;
+    height: 100vh;
+    background-color: #0c3b2e;
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    margin: 0; /* Removes any default margin */
+    padding: 0; /* Removes any default padding */
+  }
+  
+  .left-side {
+    flex: 1;
+    padding: 50px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .left-side h1 {
+    font-size: 4rem;
+    margin-bottom: 20px;
+  }
+  
+  .left-side p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+  }
+  
+  .get-started-button {
+    padding: 5px 40px; /* Increase horizontal padding */
+    font-size: 1.2rem;
+    background-color: #ffba00;
+    color: #000;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    position: absolute;
+    top: 680px;
+    left: 20%; /* Use percentage to keep it relative */
+    transform: translateX(-50%); /* Centers the button */
+    width: 265px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .get-started-button:hover {
+    background-color: #ffba00;
+  }
+  
+  .right-side {
+    flex: 1;
+    overflow: hidden; /* Prevent overflow of images */
+  }
+  
+  .right-side img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .container {
+    padding: 50px;
+    background-color: #0c3b2e;
+    color: #000;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 865px;
+    left: 50%; /* Use percentage to keep it relative */
+    transform: translateX(-50%); /* Centers the container */
+    max-width: 100%; /* Prevents overflow */
+    gap: 30px;
+  }
+  
+  .a-b-text h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-align: center;
+    position: absolute;
+    top: -45px;
+    left: 50%; /* Use percentage to keep it relative */
+    transform: translateX(-50%); /* Centers the heading */
+  }
+  
+  /* Measure Section - Individual Boxes */
+  .a-b-box, .a-b-c-box, .a-c-box {
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    width: 300px;
+    height: 465px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin: 0 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .a-box, .b-box, .c-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  
+  .home_img, .home_img1, .home_img2 {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  
+  .p_para, .p_para1, .p_para2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .p_text, .p_text1, .p_text2 {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #666;
+  }
+  
+  .button_b, .button_b1, .button_b2 {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #0c3b2e;
+    color: #fff;
+    border: none;
+    border-radius: 18px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button_b:hover, .button_b1:hover, .button_b2:hover {
+    background-color: #e6a800;
+  }
+  
+  /* About Us Section */
+  .about-us-section {
+    background-color: #0c3b2e;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    margin-top: 30px;
+    width: 100%;
+    position: absolute;
+    top: 1459px;
+    left: 50%; /* Use percentage to keep it relative */
+    transform: translateX(-50%); /* Centers the section */
+  }
+  
+  .about-us-section h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+  }
+  
+  .about-us-section blockquote {
+    font-size: 2.5rem;
+    font-style: italic;
+    margin: 20px 0;
+  }
+  
+  .about-us-section p {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 10px 0;
+  }
+  
+  .about-us-image img {
+    width: 150px;
+    height: auto;
+    margin-top: 20px;
+    border-radius: 50%;
+  }
+  
+  /* Footer Section */
+  .footer {
+    background-color: #000;
+    color: white;
+    width: 100%;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 10px;
+  }
+  
+  .social-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2rem;
+  }
+  
+  .social-links a:hover {
+    color: #ddd;
+  }
+  
+  .footer p {
+    margin: 0;
+    font-size: 0.9rem;
+  }

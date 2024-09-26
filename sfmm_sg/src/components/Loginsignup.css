@@ -1,0 +1,109 @@
+body {
+   
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'TT Hoves', sans-serif;
+   }
+   
+   .login-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     width: 100%;
+     height: 100%;
+   }
+   
+   .login-form {
+     background-color: white;
+     padding: 30px;
+     border-radius: 8px;
+     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+     text-align: center;
+     width: 300px;
+   }
+   
+   .login-form h2 {
+     margin-bottom: 20px;
+   }
+   
+   .login-form input[type="email"],
+   .login-form input[type="password"] {
+     width: 100%;
+     padding: 10px;
+     margin: 10px 0;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+   }
+   
+   .remember-forgot {
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+     margin: 10px 0;
+   }
+   
+   .reset-link {
+     color: #0066c0;
+     text-decoration: none;
+   }
+   
+   .sign-in-btn {
+     background-color: black;
+     color: white;
+     border: none;
+     padding: 10px;
+     width: 100%;
+     border-radius: 4px;
+     cursor: pointer;
+     margin-top: 10px;
+   }
+   
+   .separator {
+     margin: 20px 0;
+     position: relative;
+   }
+   
+   .separator::before {
+     content: "";
+     position: absolute;
+     top: 50%;
+     left: 0;
+     right: 0;
+     border-top: 1px solid #ccc;
+     z-index: 0;
+   }
+   
+   .separator::after {
+     content: "or";
+     display: inline-block;
+     background: white;
+     padding: 0 10px;
+     position: relative;
+     z-index: 1;
+   }
+   
+   .social-btn {
+     background: none;
+     border: 1px solid #ccc;
+     width: 100%;
+     padding: 10px;
+     margin-top: 10px;
+     border-radius: 4px;
+     cursor: pointer;
+   }
+   
+   .google-btn {
+     margin-top: 10px;
+   }
+   
+   .twitter-btn {
+     margin-top: 10px;
+   }
+   
+   .sign-up-link {
+     color: #0066c0;
+     text-decoration: none;
+   }

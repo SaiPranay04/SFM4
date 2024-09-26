@@ -1,0 +1,99 @@
+/* General Navbar Styles */
+/* General Navbar Styles */
+.nav, .nav-active {
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0;
+    z-index: 1000;
+    transition: background-color 0.3s;
+    background-color: rgba(0, 0, 0, 0.8); /* Default background color */
+    border-radius: 0px;
+}
+
+/* Default Navbar Style */
+.nav {
+    background-color: rgba(0, 0, 0, 0.8); /* Set a default background color */
+}
+
+/* Navbar Style When Scrolled */
+.nav-active {
+    background-color: rgba(0, 0, 0, 0.8); /* Keep the background the same when scrolled */
+}
+
+/* Menu Button */
+.menu-btn {
+    display: none;
+}
+
+/* Menu Icon */
+.menu-icon {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.nav-icon {
+    background-color: white;
+    display: block;
+    height: 2px;
+    width: 25px;
+    margin: 5px auto;
+    transition: all 0.3s;
+}
+
+/* Navigation Menu */
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 5px;
+    padding: 11px;
+}
+
+.menu li {
+    margin: 0 20px;
+}
+
+.menu li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    transition: color 0.3s;
+}
+
+.menu li a:hover {
+    color: #ffeb3b;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .menu-icon {
+        display: block;
+    }
+
+    .menu {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100% - 60px);
+        background-color: rgba(0, 0, 0, 0.9);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: translateY(-100%);
+        transition: transform 0.3s;
+    }
+
+    .menu li {
+        margin: 20px 0;
+    }
+
+    .menu-btn:checked ~ .menu {
+        transform: translateY(0);
+    }
+}

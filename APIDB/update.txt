@@ -1,0 +1,328 @@
+const express = require('express');
+const axios = require('axios');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { OrganizationCalculation, Contact, User, Company, ESGmetric, CompanyESG, Report, Action } = require('./models');
+const router = express.Router();
+
+const secret = 'your_jwt_secret';
+
+// Middleware for authentication and admin check
+const authenticateToken = (req, res, next) => {
+  const token = req.headers['authorization'];
+  if (!token) return res.sendStatus(401);
+
+  jwt.verify(token, secret, (err, user) => {
+    if (err) return res.sendStatus(403);
+
+    User.findById(user.id, (err, foundUser) => {
+      if (err || !foundUser) return res.sendStatus(403);
+      req.user = foundUser;
+      next();
+    });
+  });
+};
+
+const isAdmin = (req, res, next) => {
+  if (req.user && req.user.role === 'Admin') {
+    next();
+  } else {
+    res.status(403).send('Forbidden');
+  }
+};
+
+// Seeding database for testing
+const seedDatabase = async () => {
+  try {
+    await OrganizationCalculation.deleteMany();
+    await Contact.deleteMany();
+    await User.deleteMany();
+
+    const contactInformations = [
+      {
+        first_name: 'John',
+        last_name: 'Doe',
+        email: 'john.doe@example.com',
+        phone_number: '1234567890',
+        company: 'Tech Solutions',
+        message: 'Hello, this is John Doe.',
+      },
+      {
+        first_name: 'Jane',
+        last_name: 'Smith',
+        email: 'jane.smith@example.com',
+        phone_number: '0987654321',
+        company: 'HealthCare Inc.',
+        message: 'Hello, this is Jane Smith.',
+      },
+    ];
+
+    const organizationCalculations = [
+      {
+        company_total_employees: 100,
+        company_sector: 'IT company',
+        office_heating_source: 'Electricity',
+        office_surface_area: 5000,
+        fleet_totalcars: 20,
+        fleet_km_avg: 15000,
+        travel_short_flight: 5,
+        travel_long_flight: 2,
+        travel_train: 10,
+        IT_laptop: 50,
+        IT_mobile: 30,
+        IT_monitor: 40,
+        IT_desktop: 20,
+      },
+    ];
+
+    const users = [
+      {
+        name: 'Alice',
+        email: 'alice@example.com',
+        password: 'alicepassword',
+        role: 'Admin'
+      },
+      {
+        name: 'Bob',
+        email: 'bob@example.com',
+        password: 'bobpassword',
+        role: 'Analyst'
+      },
+    ];
+
+    await OrganizationCalculation.insertMany(organizationCalculations);
+    await Contact.insertMany(contactInformations);
+    await Promise.all(users.map(async (user) => {
+      const hashedPassword = await bcrypt.hash(user.password, 10);
+      const newUser = new User({
+        name: user.name,
+        email: user.email,
+        password: hashedPassword,
+        role: user.role,
+      });
+      await newUser.save();
+    }));
+
+    console.log('Database seeded successfully');
+  } catch (error) {
+    console.error('Error seeding database:', error);
+  }
+};
+
+seedDatabase().then(() => {
+  console.log('Database seeded successfully');
+}).catch((error) => {
+  console.error('Error seeding database:', error);
+});
+
+// Public routes
+router.post('/signup', async (req, res) => {
+  const { name, email, password } = req.body;
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ name, email, password: hashedPassword, role: 'Analyst' });
+    await user.save();
+    res.status(201).send('User created');
+  } catch (err) {
+    res.status(400).send('Error creating user');
+  }
+});
+
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(400).send('Invalid email or password');
+    }
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      return res.status(400).send('Invalid email or password');
+    }
+    const token = jwt.sign({ id: user._id }, secret, { expiresIn: '1h' });
+    res.json({ token });
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+// User routes
+router.get('/contacts', authenticateToken, async (req, res) => {
+  try {
+    const contacts = await Contact.find();
+    res.json(contacts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/contacts', authenticateToken, async (req, res) => {
+  try {
+    const contact = new Contact(req.body);
+    await contact.save();
+    res.status(201).json(contact);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/organizationcalculations', authenticateToken, async (req, res) => {
+  try {
+    const org = await OrganizationCalculation.find();
+    res.json(org);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/organizationcalculations', authenticateToken, async (req, res) => {
+  try {
+    const org = new OrganizationCalculation(req.body);
+    await org.save();
+    res.status(201).json(org);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// Admin routes
+router.get('/admin/contacts', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const contacts = await Contact.find();
+    res.json(contacts);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+router.get('/admin/organizationcalculations', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const org = await OrganizationCalculation.find();
+    res.json(org);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/admin/users', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
+
+router.get('/admin/company', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const cmp = await Company.find();
+    res.json(cmp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/admin/company', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const cmp = new Company(req.body);
+    await cmp.save();
+    res.status(201).json(cmp);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/admin/esgmetric', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const esg = await ESGmetric.find();
+    res.json(esg);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/admin/esgmetric', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const esg = new ESGmetric(req.body);
+    await esg.save();
+    res.status(201).json(esg);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/admin/companyesg', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const cesg = await CompanyESG.find();
+    res.json(cesg);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/admin/companyesg', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const cesg = new CompanyESG(req.body);
+    await cesg.save();
+    res.status(201).json(cesg);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/admin/report', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const rep = await Report.find();
+    res.json(rep);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/admin/report', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const rep = new Report(req.body);
+    await rep.save();
+    res.status(201).json(rep);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.get('/admin/action', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const act = await Action.find();
+    res.json(act);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/admin/action', authenticateToken, isAdmin, async (req, res) => {
+  try {
+    const act = new Action(req.body);
+    await act.save();
+    res.status(201).json(act);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+module.exports = router;

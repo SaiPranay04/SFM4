@@ -1,0 +1,62 @@
+.about-section {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping for smaller screens */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto; /* Centers the content */
+    gap: 20px; /* Space between the image and text */
+  }
+  
+  .about-image {
+    flex: 1;
+    max-width: 50%; /* Limits the image to half the width */
+  }
+  
+  .about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px; /* Adds rounded corners to the image */
+    object-fit: cover; /* Keeps the aspect ratio of the image */
+  }
+  
+  .about-text {
+    flex: 2;
+    max-width: 50%; /* Limits the text area to half the width */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertically centers the text */
+    font-family: 'TT Hoves', sans-serif; /* Uses your preferred font */
+    position: absolute;
+    top:381px;
+    left:487px;
+    width:320px;
+  }
+  
+  .about-text h1 {
+    font-size: 3em;
+    margin-bottom: 20px;
+    color: #fff; /* Adjust the color as needed */
+    
+  }
+  
+  .about-text p {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #fff; /* Adjust the color as needed */
+  }
+  
+  .cool-button {
+    background-color: #007BFF; /* Primary button color */
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'TT Hoves', sans-serif; /* Uses your preferred font */
+  }
+  
+  .cool-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+  }
