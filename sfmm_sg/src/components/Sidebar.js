@@ -40,6 +40,9 @@ const Sidebar = () => {
         <li className={activeItem === 'Permissiontable' ? 'active' : ''} onClick={() => handleItemClick('Permissiontable')}>
           <Link to="/Permissiontable"><FontAwesomeIcon icon={faUsers} /> Permissions</Link>
         </li>
+        <li className={activeItem === 'FileUpload' ? 'active' : ''} onClick={() => handleItemClick('FileUpload')}>
+          <Link to="/FileUpload"><FontAwesomeIcon icon={faUsers} /> Upload Metrics</Link>
+        </li>
       </ul>
       <div className="footer"></div>
     </div>

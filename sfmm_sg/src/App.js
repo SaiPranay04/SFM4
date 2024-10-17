@@ -23,6 +23,7 @@ import CompanyEsgData from './components/CompanyEsgData';
 import Roles from './components/Roles';
 import Permissiontable from './components/Permissiontable';
 import SignUp from './components/SignUp';
+import FileUpload from './components/FileUpload';
 
 
 
@@ -62,6 +63,7 @@ const AppContent = () => {
           <Route path="/Roles" element={<Layout><Roles /></Layout>} />
           <Route path="/Permissiontable" element={<Layout><Permissiontable /></Layout>} />
           <Route path="/SignUp" element={<SignUp />} />
+          <Route path="/FileUpload" element={<Layout><FileUpload /></Layout>} />
 
          
        

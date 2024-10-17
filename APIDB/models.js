@@ -110,6 +110,16 @@ const permissionSchema = new mongoose.Schema({
   }
 });
 
+const excelDataSchema = new mongoose.Schema({
+  energyConsumption: { type: Number, required: true },
+  renewableEnergy: { type: Number, required: true },
+  ghgEmissions: { type: Number, required: true },
+  employmentRates: { type: Number, required: true },
+  diversity: { type: Number, required: true },
+  boardComposition: { type: Number, required: true },
+  ethicalPractices: { type: Number, required: true }
+});
+
 const OrganizationCalculation = mongoose.model('OrganizationCalculation', organizationCalculationSchema);
 const Contact = mongoose.model('Contact', contactSchema);
 const User = mongoose.model('User', userSchema);
@@ -120,6 +130,8 @@ const Report = mongoose.model('Report', reportSchema);
 const Action = mongoose.model('Action', userActionSchema);
 const Role = mongoose.model('Role', roleSchema);
 const Permission = mongoose.model('Permission', permissionSchema);
+const ExcelData = mongoose.model('excelData', excelDataSchema);
+
 module.exports = {
   OrganizationCalculation,
   Contact,
@@ -130,5 +142,6 @@ module.exports = {
   Report,
   Action,
   Role,
-  Permission
+  Permission,
+  ExcelData
 };

@@ -3,9 +3,12 @@ const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { OrganizationCalculation, Contact, User, Company, ESGmetric, CompanyESG, Report, Action, Role } = require('./models');
+const { OrganizationCalculation, Contact, User, Company, ESGmetric, CompanyESG, Report, Action, Role,ExcelData } = require('./models');
 const router = express.Router();
 const secret = 'your_jwt_secret';
+const multer =require('multer');
+const XLSX = require('xlsx');
+const upload = multer({ dest: 'uploads/' });
 
 router.get('/contacts', async (req, res) => {
   try {
@@ -380,4 +383,42 @@ router.put('/permissions/:roleId', async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+  try {
+      const file = req.file;
+      const workbook = XLSX.readFile(file.path);
+      const sheetName = workbook.SheetNames[0];
+      const sheet = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName]);
+
+      // Iterate over each row in the Excel sheet and save to MongoDB
+      for (let row of sheet) {
+          const newEntry = new ExcelData({
+              energyConsumption: row.energyConsumption,
+              renewableEnergy: row.renewableEnergy,
+              ghgEmissions: row.ghgEmissions,
+              employmentRates: row.employmentRates,
+              diversity: row.diversity,
+              boardComposition: row.boardComposition,
+              ethicalPractices: row.ethicalPractices
+          });
+          await newEntry.save();
+      }
+
+      res.status(200).send('Excel data uploaded successfully!');
+  } catch (error) {
+      console.error('Error uploading file:', error);
+      res.status(500).send('Server error');
+  }
+});
+
+router.get('/data', async (req, res) => {
+  try {
+      const data = await ExcelData.find(); // Fetch all documents from the ExcelData collection
+      res.status(200).json(data); // Send the data as JSON
+  } catch (error) {
+      res.status(500).send('Error fetching data from the database');
+  }
+});
+
 module.exports = router;
