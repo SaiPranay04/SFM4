@@ -158,6 +158,23 @@ router.delete('/users/:id', async (req, res) => {
   }
 });
 
+router.put('/users/:id', async (req, res) => {
+  const { id } = req.params;
+  const updatedData = req.body;
+
+  try {
+    const user = await User.findByIdAndUpdate(id, updatedData, { new: true, runValidators: true });
+
+    if (!user) {
+      return res.status(404).send('User not found');
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Server error');
+  }
+});
 
 router.get('/company', async (req, res) => {
   try {

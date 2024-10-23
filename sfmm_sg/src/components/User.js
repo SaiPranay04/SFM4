@@ -17,6 +17,13 @@ import {
   AppBar,
   Toolbar,
   InputAdornment,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Select,
+  MenuItem
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
@@ -24,10 +31,20 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const fetchUsers = async () => {
   try {
-    const response = await axios.get('http://localhost:5000/api/users'); // Replace with your backend endpoint
+    const response = await axios.get('http://localhost:5000/api/users'); 
     return response.data;
   } catch (error) {
-    console.error('Failed to fetch users', error);
+    console.error('Failed to fetch users:', error);
+    return [];
+  }
+};
+
+const fetchRoles = async () => {
+  try {
+    const response = await axios.get('http://localhost:5000/api/roles'); 
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch roles:', error);
     return [];
   }
 };
@@ -35,33 +52,78 @@ const fetchUsers = async () => {
 const generateUserID = (index) => {
   const prefix = 'ABC';
   const idNumber = (index + 1).toString().padStart(3, '0'); // Ensures 3 digits
-  return `${prefix}${idNumber}`;
+  return `${prefix}${idNumber}`; // Use backticks for template literals
 };
 
 const User = () => {
   const [search, setSearch] = useState('');
   const [users, setUsers] = useState([]);
-
+  const [roles, setRoles] = useState([]);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  
+  // Fetch users and roles on component mount
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchUsers();
-      setUsers(data);
+      const rolesData = await fetchRoles(); // Fetch roles
+
+      const usersWithActiveFlag = data.map((user) => ({
+        ...user,
+        active: user.active ?? false, // Ensure 'active' field is present
+      }));
+      setUsers(usersWithActiveFlag);
+      setRoles(rolesData); // Set roles in state
     };
     fetchData();
   }, []);
 
-  const handleSearchChange = (event) => {
-    setSearch(event.target.value);
-  };
+  const handleSearchChange = (event) => setSearch(event.target.value);
 
   const handleToggleActive = (index) => {
-    const newUsers = [...users];
-    newUsers[index].active = !newUsers[index].active;
-    setUsers(newUsers);
+    setUsers((prevUsers) =>
+      prevUsers.map((user, i) =>
+        i === index ? { ...user, active: !user.active } : user
+      )
+    );
   };
 
-  const filteredUsers = users.filter(user =>
-    user.name.toLowerCase().includes(search.toLowerCase())
+  const handleEditUser = (user) => {
+    setSelectedUser(user);
+    setEditDialogOpen(true);
+  };
+
+  const handleDeleteUser = async (userId) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/users/${userId}`); // Corrected string interpolation
+      setUsers(users.filter((user) => user._id !== userId));
+    } catch (error) {
+      console.error('Failed to delete user:', error);
+    }
+  };
+
+  const handleEditSubmit = async () => {
+    try {
+      await axios.put(`http://localhost:5000/api/users/${selectedUser._id}`, selectedUser); // Corrected string interpolation
+      setUsers((prevUsers) => prevUsers.map((user) => (user._id === selectedUser._id ? selectedUser : user)));
+      setEditDialogOpen(false);
+      setSelectedUser(null);
+    } catch (error) {
+      console.error('Failed to update user:', error);
+    }
+  };
+
+  const handleRoleChange = (event, userIndex) => {
+    const newRole = event.target.value;
+    setUsers((prevUsers) =>
+      prevUsers.map((user, index) =>
+        index === userIndex ? { ...user, role: newRole } : user
+      )
+    );
+  };
+
+  const filteredUsers = users.filter((user) =>
+    user.username?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
@@ -72,7 +134,7 @@ const User = () => {
             <TextField
               variant="outlined"
               size="small"
-              placeholder="Search By Name"
+              placeholder="Search By Username"
               value={search}
               onChange={handleSearchChange}
               InputProps={{
@@ -97,9 +159,8 @@ const User = () => {
               <TableHead>
                 <TableRow>
                   <TableCell>ID</TableCell>
-                  <TableCell>Name</TableCell>
+                  <TableCell>Username</TableCell>
                   <TableCell>Email</TableCell>
-                  <TableCell>Phone Number</TableCell>
                   <TableCell>Role</TableCell>
                   <TableCell>Actions</TableCell>
                 </TableRow>
@@ -108,20 +169,33 @@ const User = () => {
                 {filteredUsers.map((user, index) => (
                   <TableRow key={user._id}>
                     <TableCell>{generateUserID(index)}</TableCell>
-                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.username}</TableCell>
                     <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.number}</TableCell>
-                    <TableCell>System</TableCell> {/* Added Role field */}
+                    <TableCell>
+                      <Select
+                        value={user.role || ''} // Default to empty string if role is undefined
+                        onChange={(event) => handleRoleChange(event, index)} // Pass the index
+                        displayEmpty
+                        fullWidth
+                      >
+                        <MenuItem value="" disabled>Select Role</MenuItem>
+                        {roles.map((role) => (
+                          <MenuItem key={role._id} value={role.name}>
+                            {role.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </TableCell>
                     <TableCell>
                       <Switch
                         checked={user.active}
                         onChange={() => handleToggleActive(index)}
                         color="primary"
                       />
-                      <IconButton>
+                      <IconButton onClick={() => handleEditUser(user)}>
                         <EditIcon />
                       </IconButton>
-                      <IconButton>
+                      <IconButton onClick={() => handleDeleteUser(user._id)}>
                         <DeleteIcon />
                       </IconButton>
                     </TableCell>
@@ -130,6 +204,34 @@ const User = () => {
               </TableBody>
             </Table>
           </TableContainer>
+
+          <Dialog open={editDialogOpen} onClose={() => setEditDialogOpen(false)}>
+            <DialogTitle>Edit User</DialogTitle>
+            <DialogContent>
+              {selectedUser && (
+                <Box>
+                  <TextField
+                    label="Username"
+                    fullWidth
+                    value={selectedUser.username}
+                    onChange={(e) => setSelectedUser({ ...selectedUser, username: e.target.value })}
+                    margin="dense"
+                  />
+                  <TextField
+                    label="Email"
+                    fullWidth
+                    value={selectedUser.email}
+                    onChange={(e) => setSelectedUser({ ...selectedUser, email: e.target.value })}
+                    margin="dense"
+                  />
+                </Box>
+              )}
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setEditDialogOpen(false)}>Cancel</Button>
+              <Button onClick={handleEditSubmit}>Save</Button>
+            </DialogActions>
+          </Dialog>
         </Container>
       </Box>
     </Box>
