@@ -7,8 +7,8 @@ import Sidebar from './Sidebar';
 const Companies = () => {
   const navigate = useNavigate();
 
-  const handleViewClick = () => {
-    navigate('/CompanyDetails');
+  const handleViewClick = (companyID) => {
+    navigate(`/CompanyDetails/${companyID}`);
   };
 
   const [companies, setCompanies] = useState([]);
@@ -79,9 +79,9 @@ const Companies = () => {
                   <TableCell>{company.country}</TableCell>
                   <TableCell>{company.esgScore}</TableCell>
                   <TableCell>
-                    <Button variant="contained" color="primary" onClick={handleViewClick}>
-                      View
-                    </Button>
+                  <Button variant="contained" color="primary" onClick={() => handleViewClick(company.companyID)}>
+    View
+  </Button>
                   </TableCell>
                 </TableRow>
               ))}

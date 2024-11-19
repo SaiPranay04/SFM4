@@ -1,17 +1,25 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Container, Typography, Box, TextField, Button, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-const fetchCompanyDetails = async () => {
+const fetchCompanyDetails = async (companyID) => {
   try {
     const response = await axios.get('http://localhost:5000/api/company');
-    return response.data[0]; // Assuming you get an array and you want the first company
+    const companies = response.data;
+    
+    for (let i = 0; i < companies.length; i++) {
+      if (companies[i].companyID === companyID) {
+        return companies[i];
+      }
+    }
   } catch (error) {
     console.error(error);
     return null;
   }
 };
+
 
 const CompanyInformation = ({ details }) => (
   <Box mb={4}>
@@ -130,16 +138,17 @@ const ESGData = ({ details }) => (
 );
 
 const CompanyDetails = () => {
+  const { companyID } = useParams();
   const [companyDetails, setCompanyDetails] = useState(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetchCompanyDetails();
+      const data = await fetchCompanyDetails(companyID);
       setCompanyDetails(data);
     };
     fetchData();
-  }, []);
-
+  }, [companyID]);
   if (!companyDetails) {
     return <Typography>Loading...</Typography>;
   }

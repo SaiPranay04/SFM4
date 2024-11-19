@@ -197,6 +197,24 @@ router.post('/company', async (req, res) => {
   }
 });
 
+// DELETE request to delete a company by ID
+router.delete('/company/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedCompany = await Company.findByIdAndDelete(id);
+
+    if (!deletedCompany) {
+      return res.status(404).json({ error: 'Company not found' });
+    }
+
+    res.status(200).json({ message: 'Company deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 router.get('/esgmetric', async (req, res) => {
   try {
     const esg = await ESGmetric.find();
@@ -232,6 +250,8 @@ router.delete('/esgmetric/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
 
 router.get('/companyesg', async (req, res) => {
   try {

@@ -56,7 +56,7 @@ const AppContent = () => {
           <Route path="/metrics" element={<Layout><Metrics /></Layout>} />
           <Route path="/reports" element={<Layout><Reports /></Layout>} />
           <Route path="/users" element={<Layout><User /></Layout>} />
-          <Route path="/companydetails" element={<Layout><CompanyDetails /></Layout>} />
+          <Route path="/companydetails/:companyID" element={<Layout><CompanyDetails /></Layout>} />
           <Route path="/addeditcompany" element={<Layout><AddEditCompany /></Layout>} />
           <Route path="/AddEditESGMetric" element={<Layout><AddEditESGMetric /></Layout>} />
           <Route path="/CompanyEsgData" element={<Layout><CompanyEsgData /></Layout>} />
