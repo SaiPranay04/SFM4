@@ -120,6 +120,19 @@ const excelDataSchema = new mongoose.Schema({
   ethicalPractices: { type: Number, required: true }
 });
 
+const boundarySchema = new mongoose.Schema({
+  carbon: { type: Number, required: true },
+  forestarea: { type: Number, required: true },
+  foresttype: { type: String, required: true },
+  protectedstatus: { type: String, required: true },
+  treespecies: { type: String, required: true },
+  vegetationdesnity: { type: Number, required: true },
+  carbonsource: { type: String, required: true },
+  carbonsink: { type: String, required: true },
+  Annualcarbonemmision: { type: Number, required: true },
+  carbonseqrate: { type: Number, required: true },
+});
+
 const OrganizationCalculation = mongoose.model('OrganizationCalculation', organizationCalculationSchema);
 const Contact = mongoose.model('Contact', contactSchema);
 const User = mongoose.model('User', userSchema);
@@ -131,6 +144,7 @@ const Action = mongoose.model('Action', userActionSchema);
 const Role = mongoose.model('Role', roleSchema);
 const Permission = mongoose.model('Permission', permissionSchema);
 const ExcelData = mongoose.model('excelData', excelDataSchema);
+const Boundary = mongoose.model('Boundary', boundarySchema);
 
 module.exports = {
   OrganizationCalculation,
@@ -143,5 +157,6 @@ module.exports = {
   Action,
   Role,
   Permission,
-  ExcelData
+  ExcelData,
+  Boundary
 };

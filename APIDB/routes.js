@@ -3,7 +3,7 @@ const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { OrganizationCalculation, Contact, User, Company, ESGmetric, CompanyESG, Report, Action, Role,ExcelData } = require('./models');
+const { OrganizationCalculation, Contact, User, Company, ESGmetric, CompanyESG, Report, Action, Role,ExcelData,Boundary } = require('./models');
 const router = express.Router();
 const secret = 'your_jwt_secret';
 const multer =require('multer');
@@ -458,4 +458,25 @@ router.get('/data', async (req, res) => {
   }
 });
 
+
+router.get('/boundary', async (req, res) => {
+  try {
+    const bond = await Boundary.find();
+    res.json(bond);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/esgmetric', async (req, res) => {
+  try {
+    const esg = new ESGmetric(req.body);
+    await esg.save();
+    res.status(201).json(esg);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 module.exports = router;
