@@ -43,6 +43,9 @@ const Sidebar = () => {
         <li className={activeItem === 'FileUpload' ? 'active' : ''} onClick={() => handleItemClick('FileUpload')}>
           <Link to="/FileUpload"><FontAwesomeIcon icon={faUsers} /> Upload Metrics</Link>
         </li>
+        <li className={activeItem === 'Projectboundary' ? 'active' : ''} onClick={() => handleItemClick('Projectboundary')}>
+          <Link to="/ProjectBoundary"><FontAwesomeIcon icon={faUsers} /> Project Boundary</Link>
+        </li>  
       </ul>
       <div className="footer"></div>
     </div>

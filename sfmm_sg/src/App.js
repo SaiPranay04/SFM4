@@ -24,7 +24,7 @@ import Roles from './components/Roles';
 import Permissiontable from './components/Permissiontable';
 import SignUp from './components/SignUp';
 import FileUpload from './components/FileUpload';
-
+import Projectboundary from './components/Projectboundary';
 
 
 
@@ -64,9 +64,7 @@ const AppContent = () => {
           <Route path="/Permissiontable" element={<Layout><Permissiontable /></Layout>} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/FileUpload" element={<Layout><FileUpload /></Layout>} />
-
-         
-       
+          <Route path="/Projectboundary" element={<Layout><Projectboundary /></Layout>} />       
         </Routes>
       </main>
     </div>

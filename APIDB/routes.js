@@ -469,11 +469,25 @@ router.get('/boundary', async (req, res) => {
   }
 });
 
-router.post('/esgmetric', async (req, res) => {
+router.post('/boundary', async (req, res) => {
   try {
-    const esg = new ESGmetric(req.body);
+    const bond = new Boundary(req.body);
     await esg.save();
-    res.status(201).json(esg);
+    res.status(201).json(bond);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.delete('/boundary/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bond = await Boundary.findByIdAndDelete(id);
+    if (!bond) {
+      return res.status(404).json({ error: 'Boundary not found' });
+    }
+    res.json({ message: 'Boundary deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });

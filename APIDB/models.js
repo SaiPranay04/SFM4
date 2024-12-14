@@ -121,16 +121,16 @@ const excelDataSchema = new mongoose.Schema({
 });
 
 const boundarySchema = new mongoose.Schema({
-  carbon: { type: Number, required: true },
-  forestarea: { type: Number, required: true },
+  // carbon: { type: Number, required: true },
+  // forestarea: { type: Number, required: true },
   foresttype: { type: String, required: true },
   protectedstatus: { type: String, required: true },
   treespecies: { type: String, required: true },
   vegetationdesnity: { type: Number, required: true },
-  carbonsource: { type: String, required: true },
-  carbonsink: { type: String, required: true },
-  Annualcarbonemmision: { type: Number, required: true },
-  carbonseqrate: { type: Number, required: true },
+  carbonSource: { type: String, required: true },
+  carbonSink: { type: String, required: true },
+  // Annualcarbonemmision: { type: Number, required: true },
+  carbonReservoirs: { type: String, required: true },
 });
 
 const OrganizationCalculation = mongoose.model('OrganizationCalculation', organizationCalculationSchema);

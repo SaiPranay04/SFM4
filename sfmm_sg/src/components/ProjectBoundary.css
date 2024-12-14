@@ -1,0 +1,189 @@
+/* General Styles */
+.project-boundary-container {
+    font-family: 'Arial', sans-serif;
+    padding: 20px;
+    margin: auto;
+    max-width: 900px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #ccc;
+}
+
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    color: #666;
+    border-bottom: 2px solid transparent;
+    transition: color 0.3s, border-color 0.3s;
+}
+
+.tab-button.active {
+    color: #007bff;
+    border-bottom: 2px solid #007bff;
+}
+
+.tab-button:hover {
+    color: #0056b3;
+}
+
+/* Tab Content */
+.tab-content {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tab-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.options-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-container label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+}
+
+.checkbox-container input {
+    margin-right: 8px;
+}
+
+/* Form Fields */
+.form-fields {
+    display: grid;
+    gap: 15px;
+    margin-top: 10px;
+}
+
+.field-container label {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333;
+}
+
+.field-container select,
+.field-container input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+}
+
+.field-container select:focus,
+.field-container input:focus {
+    border-color: #007bff;
+}
+
+/* Navigation Buttons */
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.nav-button,
+.preview-button,
+.submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.nav-button:hover,
+.preview-button:hover,
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Preview Modal */
+.preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.preview-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 600px;
+    width: 90%;
+    text-align: left;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.preview-field {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #444;
+}
+
+.preview-field strong {
+    color: #007bff;
+}
+
+.preview-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.download-pdf-btn,
+.close-preview-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.download-pdf-btn:hover,
+.close-preview-btn:hover {
+    background-color: #0056b3;
+}
