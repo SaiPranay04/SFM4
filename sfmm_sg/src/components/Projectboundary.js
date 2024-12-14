@@ -15,7 +15,7 @@ function ProjectBoundary() {
     });
 
     const [activeTab, setActiveTab] = useState(0);
-    c  onst [isPreviewOpen, setIsPreviewOpen] = useState(false);
+    const [isPreviewOpen, setIsPreviewOpen] = useState(false);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
