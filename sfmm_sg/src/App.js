@@ -24,7 +24,7 @@ import Roles from './components/Roles';
 import Permissiontable from './components/Permissiontable';
 import SignUp from './components/SignUp';
 import FileUpload from './components/FileUpload';
-
+import Projectboundary from './components/Projectboundary';
 
 
 
@@ -56,7 +56,7 @@ const AppContent = () => {
           <Route path="/metrics" element={<Layout><Metrics /></Layout>} />
           <Route path="/reports" element={<Layout><Reports /></Layout>} />
           <Route path="/users" element={<Layout><User /></Layout>} />
-          <Route path="/companydetails" element={<Layout><CompanyDetails /></Layout>} />
+          <Route path="/companydetails/:companyID" element={<Layout><CompanyDetails /></Layout>} />
           <Route path="/addeditcompany" element={<Layout><AddEditCompany /></Layout>} />
           <Route path="/AddEditESGMetric" element={<Layout><AddEditESGMetric /></Layout>} />
           <Route path="/CompanyEsgData" element={<Layout><CompanyEsgData /></Layout>} />
@@ -64,9 +64,7 @@ const AppContent = () => {
           <Route path="/Permissiontable" element={<Layout><Permissiontable /></Layout>} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/FileUpload" element={<Layout><FileUpload /></Layout>} />
-
-         
-       
+          <Route path="/Projectboundary" element={<Layout><Projectboundary /></Layout>} />       
         </Routes>
       </main>
     </div>

@@ -3,7 +3,7 @@ const axios = require('axios');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
-const { OrganizationCalculation, Contact, User, Company, ESGmetric, CompanyESG, Report, Action, Role,ExcelData } = require('./models');
+const { OrganizationCalculation, Contact, User, Company, ESGmetric, CompanyESG, Report, Action, Role,ExcelData,Boundary } = require('./models');
 const router = express.Router();
 const secret = 'your_jwt_secret';
 const multer =require('multer');
@@ -126,7 +126,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).send('Invalid email or password');
     }
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: '1h' });
-    res.json({ token });
+    res.json( { token } );
   } catch (err) {
     console.error('Server error:', err); // Log any server errors
     res.status(500).send('Server error');
@@ -197,6 +197,24 @@ router.post('/company', async (req, res) => {
   }
 });
 
+// DELETE request to delete a company by ID
+router.delete('/company/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedCompany = await Company.findByIdAndDelete(id);
+
+    if (!deletedCompany) {
+      return res.status(404).json({ error: 'Company not found' });
+    }
+
+    res.status(200).json({ message: 'Company deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 router.get('/esgmetric', async (req, res) => {
   try {
     const esg = await ESGmetric.find();
@@ -232,6 +250,8 @@ router.delete('/esgmetric/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
 
 router.get('/companyesg', async (req, res) => {
   try {
@@ -438,4 +458,39 @@ router.get('/data', async (req, res) => {
   }
 });
 
+
+router.get('/boundary', async (req, res) => {
+  try {
+    const bond = await Boundary.find();
+    res.json(bond);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.post('/boundary', async (req, res) => {
+  try {
+    const bond = new Boundary(req.body);
+    await esg.save();
+    res.status(201).json(bond);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+router.delete('/boundary/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const bond = await Boundary.findByIdAndDelete(id);
+    if (!bond) {
+      return res.status(404).json({ error: 'Boundary not found' });
+    }
+    res.json({ message: 'Boundary deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 module.exports = router;

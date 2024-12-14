@@ -1,0 +1,6 @@
+cd path/to/your/project
+git status
+git add .
+git commit -m "Your descriptive commit message"
+git push origin branch-name
+git pull origin main
