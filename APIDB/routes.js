@@ -126,7 +126,7 @@ router.post('/login', async (req, res) => {
       return res.status(400).send('Invalid email or password');
     }
     const token = jwt.sign({ id: user._id }, secret, { expiresIn: '1h' });
-    res.json({ token });
+    res.json( { token } );
   } catch (err) {
     console.error('Server error:', err); // Log any server errors
     res.status(500).send('Server error');
