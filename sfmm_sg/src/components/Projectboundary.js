@@ -220,7 +220,7 @@ function ProjectBoundary( ) {
                         ))}
                         <div className="preview-actions">
                             <button onClick={downloadPDF} className="download-pdf-btn">
-                                Download    PDF
+                                Download PDF
                             </button>
                             <button onClick={() => setIsPreviewOpen(false)} className="close-preview-btn">
                                 Close
