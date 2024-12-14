@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import jsPDF from 'jspdf';
 import './ProjectBoundary.css';
-function ProjectBoundary() {
+function ProjectBoundary( ) {
     const [formData, setFormData] = useState({
         carbonSources: [],
         carbonSinks: [],
